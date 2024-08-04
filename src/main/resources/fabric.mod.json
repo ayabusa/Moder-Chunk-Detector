@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "modern_chunk_detector",
+	"version": "${version}",
+	"name": "Modern Chunk Detector",
+	"description": "This mod shows you if a chunk is new or old, can be useful on server like 2b2t or 9b9t",
+	"authors": [
+		"Ayabusa!"
+	],
+	"contact": {
+		"homepage": "https://ayabusa.dev/",
+		"sources": "https://github.com/ayabusa"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/modern_chunk_detector/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"modern_chunk_detector.ModernChunkDetector"
+		],
+		"client": [
+			"modern_chunk_detector.ModernChunkDetectorClient"
+		]
+	},
+	"mixins": [
+		"modern_chunk_detector.mixins.json",
+		{
+			"config": "modern_chunk_detector.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.6",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

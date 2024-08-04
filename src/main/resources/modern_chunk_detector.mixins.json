@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "modern_chunk_detector.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"ExampleMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
