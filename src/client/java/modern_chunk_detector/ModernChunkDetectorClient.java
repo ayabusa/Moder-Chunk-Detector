@@ -5,8 +5,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientChunkEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -16,6 +16,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ColorHelper;
@@ -44,7 +45,7 @@ public class ModernChunkDetectorClient implements ClientModInitializer {
 				"toogle_key.modern_chunk_detector", // The translation key of the keybinding's name
 				InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
 				GLFW.GLFW_KEY_O, // The keycode of the key
-				"modern_chunk_detector.ayabusa" // The translation key of the keybinding's category.
+				new KeyBinding.Category(Identifier.of("modern_chunk_detector.ayabusa")) // The translation key of the keybinding's category.
 		));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -91,11 +92,11 @@ public class ModernChunkDetectorClient implements ClientModInitializer {
 
 		WorldRenderEvents.BEFORE_DEBUG_RENDER.register((WorldRenderContext context)->{
 			if(is_mod_enabled) {
-				MatrixStack matrices = context.matrixStack();
+				MatrixStack matrices = context.matrices();
 				VertexConsumerProvider vertexConsumers = context.consumers();
-				double cameraX = context.camera().getPos().x;
-				double cameraY = context.camera().getPos().y;
-				double cameraZ = context.camera().getPos().z;
+				double cameraX = context.gameRenderer().getCamera().getPos().x;
+				double cameraY = context.gameRenderer().getCamera().getPos().y;
+				double cameraZ = context.gameRenderer().getCamera().getPos().z;
 
 				for (Object i : chunk_to_render) {
 					render(matrices, vertexConsumers, cameraX, cameraY, cameraZ, (ChunkPos) i);
