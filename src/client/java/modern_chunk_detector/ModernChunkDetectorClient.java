@@ -7,8 +7,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.fabricmc.fabric.api.renderer.v1.Renderer;
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -107,13 +105,13 @@ public class ModernChunkDetectorClient implements ClientModInitializer {
 	}
 
 	private final MinecraftClient client = MinecraftClient.getInstance();
-	private static final int DARK_CYAN = ColorHelper.Argb.getArgb(255, 0, 155, 155);
-	private static final int YELLOW = ColorHelper.Argb.getArgb(255, 255, 255, 0);
+	private static final int DARK_CYAN = ColorHelper.getArgb(255, 0, 155, 155);
+	private static final int YELLOW = ColorHelper.getArgb(255, 255, 255, 0);
 
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, double cameraX, double cameraY, double cameraZ, ChunkPos chunkPos) {
 		Entity entity = this.client.gameRenderer.getCamera().getFocusedEntity();
 		float f = (float)((double)this.client.world.getBottomY() - cameraY);
-		float g = (float)((double)this.client.world.getTopY() - cameraY);
+		float g = (float)((double)this.client.world.getHeight() - cameraY);
 
 		float h = (float)((double)chunkPos.getStartX() - cameraX);
 		float i = (float)((double)chunkPos.getStartZ() - cameraZ);
@@ -160,7 +158,7 @@ public class ModernChunkDetectorClient implements ClientModInitializer {
 		}
 
 		float l;
-		for(j = this.client.world.getBottomY(); j <= this.client.world.getTopY(); j += 2) {
+		for(j = this.client.world.getBottomY(); j <= this.client.world.getHeight(); j += 2) {
 
 			l = (float)((double)j - cameraY);
 			int m = j % 8 == 0 ? DARK_CYAN : YELLOW;
@@ -184,7 +182,7 @@ public class ModernChunkDetectorClient implements ClientModInitializer {
 			}
 		}
 
-		for(j = this.client.world.getBottomY(); j <= this.client.world.getTopY(); j += 16) {
+		for(j = this.client.world.getBottomY(); j <= this.client.world.getHeight(); j += 16) {
 			l = (float)((double)j - cameraY);
 			vertexConsumer.vertex(matrix4f, h, l, i).color(1.0F, 0F, 1.0F, 0.0F);
 			vertexConsumer.vertex(matrix4f, h, l, i).color(1.0F, 0F, 1.0F, 1.0F);
